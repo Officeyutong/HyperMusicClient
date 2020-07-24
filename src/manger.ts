@@ -2,8 +2,8 @@ import {createStore, Action, combineReducers} from 'redux';
 
 const defaultState = {
   login: {
-    token: 'default_token',
-    server: 'default_server',
+    token: '',
+    server: '',
   },
 };
 export type StateType = typeof defaultState;

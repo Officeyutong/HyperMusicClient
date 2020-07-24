@@ -1,62 +1,56 @@
 import * as React from 'react';
-// import {StatelessComponent} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {useState} from 'react';
+import {
+  Container,
+  Header,
+  Form,
+  Content,
+  Input,
+  Item,
+  Label,
+  Title,
+  Body,
+  Button,
+} from 'native-base';
 import {StateType, makeLoginInfoUpdateAction} from '../manger';
 import {connect} from 'react-redux';
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  box1: {
-    flex: 1,
-    backgroundColor: 'red',
-    width: 100,
-  },
-  box2: {
-    flex: 2,
-    backgroundColor: 'blue',
-    width: 200,
-  },
-  box3: {
-    flex: 1,
-    backgroundColor: 'yellow',
-    width: 300,
-  },
-});
 type LoginViewStateType = StateType & {
   update: (token: string, server: string) => void;
 };
 
 const LoginView: React.FC<LoginViewStateType> = (props: LoginViewStateType) => {
-  // props.
   const {login, update} = props;
-  // React.useEffect(() => {
-  //   ;
-  // });
-  console.log('rendering...');
+  let [loading, changeLoading] = useState(false);
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.box1} />
-        <View style={styles.box2} />
-        <View style={styles.box3} />
-        <View>
-          <Text>token: {login.token}</Text>
-        </View>
-        <View>
-          <Text>server: {login.server}</Text>
-        </View>
-        <Button
-          onPress={() => {
-            console.log('Pressed!');
-            update('my token', 'my server');
-          }}
-          title="qwq"
-        />
-      </View>
-    </>
+    <Container>
+      <Header>
+        <Body>
+          <Title>HyperMusicClient 登录</Title>
+        </Body>
+      </Header>
+      <Content>
+        <Form>
+          <Item fixedLabel>
+            <Label>服务器地址</Label>
+            <Input
+              value={login.server}
+              placeholder="http[s]://[server]:[port]"
+              onChangeText={(str: string) => update(login.token, str)}
+            />
+          </Item>
+          <Item fixedLabel>
+            <Label>认证密钥</Label>
+            <Input
+              value={login.token}
+              onChangeText={(str: string) => update(str, login.server)}
+            />
+          </Item>
+          <Item>
+            <Button disabled={loading} />
+          </Item>
+        </Form>
+      </Content>
+    </Container>
   );
 };
 
